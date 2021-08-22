@@ -11,6 +11,7 @@ let dental=[{hora: '08:30', especialista: 'ANDREA ZUÑIGA', paciente: 'MARCELA R
 //Definir variables
 let tablas=document.getElementsByClassName('table');
 let horasEspecialidades=[radiologia,traumatologia,dental];
+let primerasUltimasAtenciones=document.getElementsByClassName('primerasUltimasAtenciones');
 
 //Escribir tabla
 for (i=0;i<tablas.length;i++){
@@ -23,6 +24,53 @@ for (i=0;i<tablas.length;i++){
           tablas[i].getElementsByTagName('tbody')[0].innerHTML=tablas[i].getElementsByTagName('tbody')[0].innerHTML+'<tr><td>'+horasEspecialidades[j][k].hora+'</td><td>'+horasEspecialidades[j][k].especialista+'</td><td>'+horasEspecialidades[j][k].paciente+'</td><td>'+horasEspecialidades[j][k].rut+'</td><td>'+horasEspecialidades[j][k].prevision+'</td></tr>'
         }
       }
+    }
+  }
+}
+
+//Proper Noun
+String.prototype.toTitleCase = function() {
+  var i, j, str, lowers, uppers;
+  str = this.replace(/([^\W_]+[^\s-]*) */g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+
+  // Certain minor words should be left lowercase unless 
+  // they are the first or last words in the string
+  lowers = ['A', 'An', 'The', 'And', 'But', 'Or', 'For', 'Nor', 'As', 'At', 
+  'By', 'For', 'From', 'In', 'Into', 'Near', 'Of', 'On', 'Onto', 'To', 'With'];
+  for (i = 0, j = lowers.length; i < j; i++)
+    str = str.replace(new RegExp('\\s' + lowers[i] + '\\s', 'g'), 
+      function(txt) {
+        return txt.toLowerCase();
+      });
+
+  // Certain words such as initialisms or acronyms should be left uppercase
+  uppers = ['Id', 'Tv'];
+  for (i = 0, j = uppers.length; i < j; i++)
+    str = str.replace(new RegExp('\\b' + uppers[i] + '\\b', 'g'), 
+      uppers[i].toUpperCase());
+
+  return str;
+}
+
+//Primeras y últimas atenciónes
+for(i=0;i<primerasUltimasAtenciones.length;i++){
+  for (j=0;j<horasEspecialidades.length;j++){
+    if(i==j){
+        if (k%2==0){
+          horasEspecialidades[j][0].paciente=horasEspecialidades[j][0].paciente.toTitleCase();
+          horasEspecialidades[j][0].prevision=horasEspecialidades[j][0].prevision.toTitleCase();
+          horasEspecialidades[j][horasEspecialidades[j].length-1].paciente=horasEspecialidades[j][horasEspecialidades[j].length-1].paciente.toTitleCase();
+          horasEspecialidades[j][horasEspecialidades[j].length-1].prevision=horasEspecialidades[j][horasEspecialidades[j].length-1].prevision.toTitleCase();
+
+          primerasUltimasAtenciones[i].innerHTML='Primera atención: '+ horasEspecialidades[j][0].paciente+' - '+horasEspecialidades[j][0].prevision + ' | Última atención: '+ horasEspecialidades[j][horasEspecialidades[j].length-1].paciente+' - '+horasEspecialidades[j][horasEspecialidades[j].length-1].prevision;
+
+          horasEspecialidades[j][0].paciente=horasEspecialidades[j][0].paciente.toUpperCase();
+          horasEspecialidades[j][0].prevision=horasEspecialidades[j][0].prevision.toUpperCase();
+          horasEspecialidades[j][horasEspecialidades[j].length-1].paciente=horasEspecialidades[j][horasEspecialidades[j].length-1].paciente.toUpperCase();
+          horasEspecialidades[j][horasEspecialidades[j].length-1].prevision=horasEspecialidades[j][horasEspecialidades[j].length-1].prevision.toUpperCase();
+        }
     }
   }
 }
